@@ -109,62 +109,72 @@ class Adm_pacientes extends MY_Controller {
         $data['title'] = "Artigo - Clínica";
         $data['pagina'] = "Edição de Artigos";
         
-        $result = $this->M_artigos->getuartigos_id($id);
+        $result = $this->M_pacientes->get_paciente_id($id);
         
-        $data['id_artigo'] = $id;
-        $data['titulo_artigo'] = $result->row()->titulo_artigo;
-        $data['texto_artigo'] = $result->row()->texto_artigo;
-        $data['imagem_artigo'] = $result->row()->imagem_artigo;
-        $data['status_artigo'] = $result->row()->status_artigo;
-        $data['destaque_artigo'] = $result->row()->destaque_artigo;
-        $data['categoria'] = $result->row()->categoria_artigo;
+        $data['id_paciente'] = $result->row()->id_paciente;
+        $data['nome_paciente'] = $result->row()->nome_paciente;
+        $data['nasc_paciente'] = $result->row()->nasc_paciente;
+        $data['mae_paciente'] = $result->row()->mae_paciente;
+        $data['cpf_paciente'] = $result->row()->cpf_paciente;
+        $data['cns_paciente'] = $result->row()->cns_paciente;
+        $data['end_paciente'] = $result->row()->end_paciente; 
+        $data['num_paciente'] = $result->row()->num_paciente;
+        $data['cep_paciente'] = $result->row()->cep_paciente;
+        $data['bairro_paciente'] = $result->row()->bairro_paciente;
+        $data['cidade_paciente'] = $result->row()->cidade_paciente;
+        $data['estado_paciente'] = $result->row()->estado_paciente;
+        $data['info_paciente'] = $result->row()->info_paciente;
+        $data['foto_paciente'] = $result->row()->foto_paciente;
         
-        $data['categorias'] = $this->M_artigos->getcategorias()->result();
+        
         
         $this->load->view('admin/headers/v_header', $data);
         $this->load->view('admin/dashboard/v_menu_dashboard', $data);
         
-        $this->load->view('admin/artigos/v_add_artigos', $data);
+        $this->load->view('admin/pacientes/v_add_paciente', $data);
         $this->load->view('admin/headers/v_footer');
     }
     
     public function store(){
-        $id = $this->input->post('id_artigo');
-        $titulo = $this->input->post('titulo_artigo');
-        $texto = $this->input->post('texto_artigo');
-        $imagem = $this->input->post('imagem_artigo');
-        $categoria = $this->input->post('categoria_artigo');
-        $status = $this->input->post('status_artigo');
-        $destaque = $this->input->post('destaque_artigo');
-        $url_amiga = $this->url_amiga->sanitize_title_with_dashes($this->input->post('titulo_artigo'));
+        $id = $this->input->post('id_paciente');
+        $nome = $this->input->post('nome_paciente');
+        $nascimento = $this->input->post('nasc_paciente');
+        $mae = $this->input->post('mae_paciente');
+        $cpf = $this->input->post('cpf_paciente');
+        $cns = $this->input->post('cns_paciente');
+        $end = $this->input->post('end_paciente');
+        $num = $this->input->post('num_paciente');
+        $cep = $this->input->post('cep_paciente');
+        $bairro = $this->input->post('bairro_paciente');
+        $cidade = $this->input->post('cidade_paciente');
+        $estado = $this->input->post('estado_paciente');
+        $info = $this->input->post('info_paciente');
+        $foto = $this->input->post('foto_paciente');
         
         
-        if(empty($id)){
+        
         $dados = array(
-           'titulo_artigo' => $titulo,
-           'texto_artigo' => $texto,
-           'imagem_artigo' =>$imagem,
-           'status_artigo' => $status,
-           'destaque_artigo' => $destaque,
-           'categoria_artigo' => $categoria,
-           'url_amiga' => $url_amiga,
-           'data_criacao' => date('Y-m-d'),
-           'usuario_artigo' => $this->session->userdata('ID'),
+           'nome_paciente' => $nome,
+           'nasc_paciente' => $nascimento,
+           'mae_paciente' =>$mae,
+           'cpf_paciente' => $cpf,
+           'cns_paciente' => $cns,
+           'end_paciente' => $end,
+           'num_paciente' => $num,
+           'cep_paciente' => $cep,
+           'bairro_paciente' => $bairro,
+            'cidade_paciente' => $cidade,
+            'estado_paciente' => $estado,
+            'info_paciente' => $info,
+            'foto_paciente' => $foto,
+            'cadastro_paciente' => date('Y-m-d'),
         );
-        }
-        else{
-            $dados = array(
-           'titulo_artigo' => $titulo,
-           'texto_artigo' => $texto,
-           'imagem_artigo' =>$imagem,
-           'status_artigo' => $status,
-            'destaque_artigo' => $destaque,
-            'categoria_artigo' => $categoria,
-            'url_amiga' => $url_amiga,
-            );
+        if(!empty($id)){
+            unset($dados['cadastro_paciente']);
         }
         
-        if($this->M_artigos->store($dados, $id)){
+        
+        if($this->M_pacientes->store($dados, $id)){
          echo '<script>alert("Salvo com sucesso!"), history.go(-2);</script>'  ; 
         }
         else{

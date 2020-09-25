@@ -54,7 +54,13 @@ class M_pacientes extends CI_Model {
         return $query->result();
    }
    
-  
+    public function get_paciente_id($id) {
+           $this->db->where('id_paciente', $id);
+           $query = $this->db->get('pacientes');
+           return $query;
+            
+        }
+    
     
      public function count_all()
     {
